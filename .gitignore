@@ -1,1 +1,8 @@
-node_modules/
+*
+
+
+!mail.js
+!/pg.js
+
+!package-lock.json
+!package.json

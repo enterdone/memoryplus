@@ -2,7 +2,7 @@ const {Telegraf, Markup, Extra} = require('telegraf');
 const axios = require("axios")
 const marked = require('marked')
 const postgres = require("./pg")
-const formatMessageText = require("./formatMessageText")
+// const formatMessageText = require("./formatMessageText")
 const commands = require('./commands.js');
 
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
@@ -106,7 +106,7 @@ bot.on('message', (ctx)=>{
 	,ctx.message.chat.id
 	,ctx.message.text
 	,ctx.message.message_id
-	,90)//username,name, user_id, message, rank
+	,90)//username,name, user_id, message, rank,
 	
 		console.log(`
 		

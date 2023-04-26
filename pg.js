@@ -111,8 +111,7 @@ module.exports = {
 	disconnect,
 	// postMsg,
 	getUsers,
-	insertData,
-	remember_pls
+	insertData
  };
  
  

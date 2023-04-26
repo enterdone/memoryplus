@@ -98,34 +98,7 @@ async function insertData(...values) {
 
 
 
-async function remember_pls(id) {
-	const client = await connect();
-	try {
-		// const client = await connect();
-	  const result = await client.query(`
-		 UPDATE users 
-		 SET rank = rank - 10 
-		 WHERE message_id = (
-			SELECT message_id 
-			FROM users 
-			WHERE rank = (
-			  SELECT MAX(rank) 
-			  FROM users
-			) 
-			ORDER BY RANDOM() 
-			LIMIT 1
-		 ) 
-		 RETURNING message_id, rank;
-	  `);
-	  console.log(result.rows[0].message_id, result.rows[0].rank);
-	  return result.rows[0].message_id;
-	} catch (err) {
-	  console.error(err);
-	} finally {
-	  await client.end();
-	}
- }
- 
+
  
 
 

@@ -24,7 +24,6 @@ bot.action('button_yellow', async (ctx) => {
 })
 
 
-
 bot.action('button3', (ctx) => {
 	ctx.reply('Вы нажали на кнопку "Button 3"')
 })
@@ -125,7 +124,7 @@ bot.on('message', (ctx)=>{
 			Markup.button.callback('🟠', 'button1'),
 			Markup.button.callback('🟣', 'button1'),
 			Markup.button.callback('🔵', 'button1'),
-			Markup.button.callback('🟢', 'button1')]
+			Markup.button.callback('🟢', `button_pressed_on_message_${ctx.message.message_id}`)]
 			,[Markup.button.callback('more_info', 'more_info')]
 		 ])
 		 

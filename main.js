@@ -2,8 +2,16 @@ const {Telegraf, Markup, Extra} = require('telegraf');
 const axios = require("axios")
 const marked = require('marked')
 const postgres = require("./pg")
+const {sendMessage, sendFromBd} = require("./send_message")
 // const formatMessageText = require("./formatMessageText")
 const commands = require('./commands.js');
+
+
+// const repl = require('repl');
+// repl.start().context = require('./main');
+
+
+
 
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
 
@@ -95,6 +103,32 @@ bot.action('button3', (ctx) => {
  bot.action(/button_pressed_on_message_(\d+)/, (ctx) => {
 	const message_id = ctx.match[1];
 	ctx.reply(`Вы нажали кнопку на сообщении с идентификатором ${message_id}`);
+ });
+
+ 
+ bot.action(/button_plus2_(\d+)/, (ctx) => {
+	const message_id = ctx.match[1];
+	ctx.reply(`Вы нажали кнопку button_plus2_ на сообщении с идентификатором ${message_id}`);
+ });
+ bot.action(/button_plus_(\d+)/, (ctx) => {
+	const message_id = ctx.match[1];
+	ctx.reply(`Вы нажали кнопку на button_plus_ с идентификатором ${message_id}`);
+ });
+ bot.action(/button_min_(\d+)/, (ctx) => {
+	const message_id = ctx.match[1]; 
+	ctx.reply(`Вы нажали кнопку на button_min_ с идентификатором ${message_id}`);
+ });  
+ bot.action(/button_min2_(\d+)/, (ctx) => {
+	const message_id = ctx.match[1]; 
+	ctx.reply(`Вы нажали кнопку на button_min2_ с идентификатором ${message_id}`);
+ });  
+
+
+ bot.action(/button_more_(\d+)/, (ctx) => {
+	const chatId = ctx.update.callback_query.from.id;
+	// console.log(JSON.stringify(ctx))
+	// ctx.reply(`Вы нажали кнопку на сообщении с идентификатором ${message_id}`);
+	sendFromBd(bot,chatId)
  });
 	 ////////////////////////////////////////////////////////////////////////////////
 
@@ -203,3 +237,83 @@ bot.on('message', (ctx)=>{
 		 
 // 	});
 	
+const chatId = '1293060843';
+const messageId = '513';
+
+
+// const chatId = 1293060843; // Замените YOUR_CHAT_ID на id вашего чата
+
+// function sendMessage(bot) {
+
+// 		const row1 = [
+// 		Markup.button.callback('🟡', 'button_yellow'),
+// 		Markup.button.callback('🟠', 'b2'),
+// 		Markup.button.callback('🟣', 'button1'),
+// 		Markup.button.callback('🔵', 'button1'),
+// 		Markup.button.callback('🟢', `button_pressed_on_message_${chatId}`),
+// 		Markup.button.callback('✏️', `button_pressed_on_message_pencil${chatId}`),
+// 		Markup.button.callback('more_info', 'more_info'),
+// 	]
+// 	const row2 = [
+// 		Markup.button.callback('❌DELETE', 'delete'),
+// 		Markup.button.callback('more_info', 'more_info')
+// 	]
+// 	const keyboard = Markup.inlineKeyboard([row1, row2])
+
+
+//   bot.telegram.sendMessage(chatId, 'Привет, я бот!');
+//   bot.telegram.copyMessage(
+// 	chatId, 
+// 	chatId, 
+// 	586, keyboard,
+// 	{reply_markup: keyboard, reply_to_message_id: 586},
+// 	);
+// }
+
+setTimeout(()=>{sendMessage(bot,chatId), console.log("вызвался таймаут")}, 3000);
+
+
+// const send = async (ctx) => {
+// 	get = await remember_pls(ctx.message.chat.id)
+// 	console.log("message_id:______", get.message_id, get.message_id)
+// 	// const message = await bot.telegram.getMessage(472758383, message_id);
+
+// 	const row1 = [
+// 		Markup.button.callback('🟡', 'button_yellow'),
+// 		Markup.button.callback('🟠', 'b2'),
+// 		Markup.button.callback('🟣', 'button1'),
+// 		Markup.button.callback('🔵', 'button1'),
+// 		Markup.button.callback('🟢', `button_pressed_on_message_${ctx.message.message_id}`),
+// 		Markup.button.callback('✏️', `button_pressed_on_message_pencil${ctx.message.message_id}`),
+// 		Markup.button.callback('more_info', 'more_info'),
+// 	]
+// 	const row2 = [
+// 		Markup.button.callback('❌DELETE', 'delete'),
+// 		Markup.button.callback('more_info', 'more_info')
+// 	]
+// 	const keyboard = Markup.inlineKeyboard([row1, row2])
+
+// 	ctx.telegram.copyMessage(
+// 		ctx.message.chat.id, 
+// 		ctx.message.chat.id, 
+// 		get.message_id, 
+// 		{reply_markup: keyboard, reply_to_message_id: get.message_id},
+// 		);
+// 	//  ctx.reply(message,keyboard, { parse_mode: 'HTML' })
+// 	bot.telegram.sendMessage(ctx.message.chat.id, 'Ответ на ваше сообщение', { reply_to_message_id: get.message_id });
+
+// 	// const data = JSON.stringify(ctx); // Строка для записи в файл
+// 	// const filePath = './ctx'; // Путь к файлу
+	
+// 	// fs.writeFile(filePath, data, (err) => {
+// 	//   if (err) throw err;
+// 	//   console.log('Данные записаны в файл');
+// 	// });
+	
+// } 
+const func1 = (msg) =>sendFromBd(bot,chatId,msg)
+module.exports = {
+	bot,
+	func1}
+
+

@@ -28,17 +28,12 @@ async function query(sql) {
   return result.rows;
 }
 
-async function disconnect() {
-  const client = await connect(); // получаем клиент
-  await client.end();
-  console.log('Disconnected from PostgreSQL database');
-}
+// async function disconnect() {
+//   const client = await connect(); // получаем клиент
+//   await client.end();
+//   console.log('Disconnected from PostgreSQL database');
+// }
 
-async function disconnect() {
-	const client = await connect(); // получаем клиент
-	await client.end();
-	console.log('Disconnected from PostgreSQL database');
- }
 
 
 
@@ -67,7 +62,7 @@ async function insertData(...values) {
 	} catch (err) {
 	  console.error('Error inserting data:', err);
 	} finally {
-	  await disconnect();
+	   await client.end();
 	}
  }
  
@@ -108,7 +103,7 @@ module.exports = {
 	Client,
 	connect,
 	query,
-	disconnect,
+	// disconnect,
 	// postMsg,
 	getUsers,
 	insertData

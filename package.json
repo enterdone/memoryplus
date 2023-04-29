@@ -27,7 +27,9 @@
     "telegraf": "^4.12.2"
   },
   "dependencies": {
+    "node-telegram-bot-api": "^0.61.0",
     "pg": "^8.10.0",
+    "supermemo": "^2.0.17",
     "telegram-mtproto": "^1.0.5"
   }
 }

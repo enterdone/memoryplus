@@ -1,10 +1,6 @@
-*
-
-
-!mail.js
-!/pg.js
-
-!package-lock.json
-!package.json
-!send_message.js
-!keyboardGenerator.js
+lib
+node_modules
+.vs*
+ctx
+.ctx
+main._*

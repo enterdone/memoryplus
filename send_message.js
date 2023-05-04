@@ -12,7 +12,15 @@ async function  sendMessage(bot, chatId, messageId = 1) {
 	const keyboard = keyboardGen(chatId)
 	try{ 
 		await  bot.telegram.copyMessage(chatId,chatId,messageId, keyboard,
-			{ reply_markup: keyboard, reply_to_message_id: messageId },)
+			{
+				reply_markup: {
+				  inline_keyboard: [[{
+					 text: '👍', // Текст кнопки-реакции
+					 callback_data: 'like' // Данные, которые будут отправлены в обработчик реакции
+				  }]]
+				},
+				parse_mode: 'HTML' // Если вы хотите использовать эмодзи, нужно использовать HTML-разметку
+			 })
 			.catch(console.log("🔵ERROR MSG______sendMessage ID/chatId: ",messageId,chatId));
 		} catch(error){
 			console.log("🔵ERRORЭ")

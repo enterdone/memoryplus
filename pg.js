@@ -1,6 +1,17 @@
 
 const { Client } = require('pg');
+// //Windows
+// function newClient() {
+//   return new Client({
+//     user: 'postgres',
+//     host: 'localhost',
+//     database: 'postgres',
+//     password: '0258',
+//     port: 5432,
+//   });
+// }
 
+//termux
 function newClient() {
   return new Client({
     user: 'postgres',
@@ -10,6 +21,8 @@ function newClient() {
     port: 5432,
   });
 }
+
+
 
 async function connect() {
   const client = newClient();

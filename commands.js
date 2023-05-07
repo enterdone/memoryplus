@@ -1,19 +1,19 @@
-const { Markup } = require('telegraf');
-const { start_GET_BD, remember_pls } = require('./database.js');
-const postgres = require("./pg")
-const fs = require('fs');
+// const { Markup } = require('telegraf');
+// const { start_GET_BD, remember_pls } = require('./database.js');
+// const postgres = require("./pg")
+// const fs = require('fs');
 
-const handleHelp = (ctx) => ctx.reply('/getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message');
-const handleGetBD = (ctx) => start_GET_BD(ctx);
+const handleHelp = (ctx) => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message');
+// const handleGetBD = (ctx) => start_GET_BD(ctx);
 
 
-const handleSendTest = (ctx) => {
-	const message = ctx.message;
-	const keyboard = Markup.inlineKeyboard([
-		Markup.button.callback('Нажми меня', `button_pressed_on_message_${message.message_id}`)
-	]);
-	ctx.reply('Привет! Нажми кнопку ниже', keyboard);
-}
+// const handleSendTest = (ctx) => {
+// 	const message = ctx.message;
+// 	const keyboard = Markup.inlineKeyboard([
+// 		Markup.button.callback('Нажми меня', `button_pressed_on_message_${message.message_id}`)
+// 	]);
+// 	ctx.reply('Привет! Нажми кнопку ниже', keyboard);
+// }
 
 // const send = async (ctx) => {
 // 	get = await remember_pls(ctx.message.chat.id)
@@ -130,8 +130,8 @@ const handleSendTest = (ctx) => {
 
 module.exports = {
 	handleHelp,
-	handleGetBD,
-	handleSendTest,
+	// handleGetBD,
+	// handleSendTest,
 	// send,
 	// test,
 

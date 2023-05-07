@@ -21,25 +21,16 @@ const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
 bot.action('button1', (ctx) => {
 	ctx.reply('Вы нажали на кнопку "Button 1"')
 })
-
 bot.action('button_yellow', async (ctx) => {
-
 	const chatId = ctx.message.chat.id;
 	const messageId = 286; // Получаем идентификатор ответного сообщения
 	const messageText = await ctx.telegram.getMessageText(chatId, messageId);
 	console.log(`Текст сообщения: ${messageText}`);
 	
 })
-
-
 bot.action('button3', (ctx) => {
 	ctx.reply('Вы нажали на кнопку "Button 3"')
 })
-// bot.action('b2', async (ctx) => {
-// mtproto.call()
-// })
-
-
 	bot.action('more_info', (ctx) => {
 		const message = ctx.update.callback_query.message;
 		const chatId = message.chat.id;
@@ -93,11 +84,11 @@ bot.action('button3', (ctx) => {
 		////////////////КОМАНДЫ////////////////////////////////////////////////////////////////
 		
 		bot.command('help', commands.handleHelp);
-		bot.command('getBD', commands.handleGetBD);
-		bot.command('send_test', commands.handleSendTest);
-		bot.command('send', commands.send);
-		bot.command('test', commands.test)
-		bot.command('get_message',commands.get_message)
+		// bot.command('getBD', commands.handleGetBD);
+		// bot.command('send_test', commands.handleSendTest);
+		// bot.command('send', commands.send);
+		// bot.command('test', commands.test)
+		// bot.command('get_message',commands.get_message)
 	 ////////////////////////////////////////////////////////////////////////////////
 
  bot.action(/button_pressed_on_message_(\d+)/, (ctx) => {

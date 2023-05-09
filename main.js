@@ -35,7 +35,7 @@ bot.on('message', (ctx)=>{
 		ctx.from ${JSON.stringify(ctx.from)}\n
 		
 		`);
-} )
+} ) 
 ////////////////////////////////////////////////////////////////////////////////
 bot.action('button1', (ctx) => {
 	ctx.reply('Вы нажали на кнопку "Button 1"')

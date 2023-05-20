@@ -21,7 +21,13 @@ function bd_write(user_id,message_id) {
 		}
 	});
 }
+
+async function query_get_message (chatId){
+	
+}
+
 // async function insertData(...values)
 module.exports = {
-	bd_write
+	bd_write,
+	query_get_message
 }

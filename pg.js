@@ -23,7 +23,6 @@ function bd_write(user_id,message_id) {
 }
 
 async function query_get_message (chatId){
-	
 	const query  = `WITH updated_rows AS (
 		UPDATE mytable
 		SET date = date + (day_interval::integer || ' day')::interval,

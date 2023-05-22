@@ -13,7 +13,7 @@ const pool = new Pool({
 pool.query('SELECT * FROM mytable')
 
 function bd_write(user_id,message_id) {
-	pool.query('INSERT INTO mytable (user_id, message_id,date, day_interval) VALUES ($1, $2, now()+INTERVAL \'1 day\', 1)', [user_id, message_id], (err, res) => {
+	pool.query('INSERT INTO mytable (user_id, message_id,date, day_interval) VALUES ($1, $2, now()+INTERVAL \'1 day\', 1.1)', [user_id, message_id], (err, res) => {
 		if (err) {
 			console.log(err.stack);
 		} else {
@@ -24,7 +24,23 @@ function bd_write(user_id,message_id) {
 
 async function query_get_message (chatId){
 	
-}
+	const query  = `WITH updated_rows AS (
+		UPDATE mytable
+		SET date = date + (day_interval::integer || ' day')::interval,
+			 day_interval = day_interval * 1.42
+		WHERE date = (SELECT MIN(date) FROM mytable)
+		RETURNING *
+	 )
+	 SELECT *
+	 FROM mytable
+	 WHERE mytable.date = (SELECT MIN(date) FROM mytable);`
+
+	 const result = await pool.query(query);
+    const rows = result.rows;
+	 console.log(rows)
+	 return rows
+	}
+
 
 // async function insertData(...values)
 module.exports = {

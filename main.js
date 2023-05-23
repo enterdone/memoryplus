@@ -34,6 +34,7 @@ bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n 
 // bot.command('send_test', commands.handleSendTest);
 ////////////////////////////////////////
 
+
 bot.command('send', async ctx =>{
 const rows = await postgres.query_get_message(472758383)
 sendMessage( 	ctx.message.chat.id ,rows[0].message_id)

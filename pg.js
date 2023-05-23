@@ -22,21 +22,22 @@ function bd_write(user_id,message_id) {
 	});
 }
 
-async function query_get_message (chatId){
+async function query_get_message (user_id){
 	const query  = `WITH updated_rows AS (
 		UPDATE mytable
 		SET date = date + (day_interval::integer || ' day')::interval,
 			 day_interval = day_interval * 1.42
-		WHERE date = (SELECT MIN(date) FROM mytable)
+ WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id})
 		RETURNING *
 	 )
 	 SELECT *
 	 FROM mytable
-	 WHERE mytable.date = (SELECT MIN(date) FROM mytable);`
+ WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id})
+   ;`
 
 	 const result = await pool.query(query);
-    const rows = result.rows;
-	 console.log(rows)
+    const rows = await result.rows;
+	 console.dir(rows, "pg rows")
 	 return rows
 	}
 

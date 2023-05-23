@@ -1,4 +1,4 @@
-const { bot } = require('./main.js');
+const { bot, Telegraf, Markup, Extra} = require('./main.js');
 const {keyboardGen} = require("./keyboardGenerator.js")
 const { remember_pls } = require('./database.js');
 
@@ -6,7 +6,7 @@ const { remember_pls } = require('./database.js');
 // const messageId = '513';
 // const messageId = '345';/** * ! ERROR */
  
-async function  sendMessage(bot, chatId, messageId = 1) {
+async function  sendMessage(  chatId, messageId = 1) {
 	// .then((message) => {
 	//   console.log('Сообщение существует:', message);
 	// })

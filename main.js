@@ -17,26 +17,33 @@ const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
 
 
 
-bot.on('message', (ctx)=>{
-	postgres.bd_write(
-		// ctx.message.chat.username
-		// , ctx.message.chat.first_name
-		 ctx.message.chat.id
-		// , ctx.message.text
-		, ctx.message.message_id
-		// , 90
-		)
-		console.log(`
-		
-		ctx.message.text ${JSON.stringify(ctx.message.text)}\n
-		ctx.message.chat ${JSON.stringify(ctx.message.chat)}\n
-		ctx.message.from ${JSON.stringify(ctx.message.from)}\n
-		ctx.message.message_id ${JSON.stringify(ctx.message.message_id)}\n
-		ctx.from ${JSON.stringify(ctx.from)}\n
-		
-		`);
-} ) 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//////////////////// 
+bot.on('edited_message', (ctx) => {
+	const editedMessage = ctx.editedMessage
+	const editedText = editedMessage.text
+	console.log(`The edited message text is: ${editedText}`)
+}) 
+////////////////////////////////////////////////////////////
+
+bot.on('message', ctx =>{postgres.bd_write(ctx.chat.id,ctx.message.message_id)
+
+})
+////////////////////////////////////////
+
+bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message'));
+// bot.command('getBD', commands.handleGetBD);
+// bot.command('send_test', commands.handleSendTest);
+////////////////////////////////////////
+
+bot.command('send', async ctx =>{
+const rows = await postgres.query_get_message(472758383)
+sendMessage( 	ctx.message.chat.id ,rows[0].message_id)
+	// ctx.reply(sendMessage(bot, ctx.message.chat.id,rows. ), "hallo")
+} 
+)
+////////////////////////////////////////
+
 bot.action('button1', (ctx) => {
 	ctx.reply('Вы нажали на кнопку "Button 1"')
 })
@@ -103,13 +110,13 @@ bot
 	})
 ////////////////КОМАНДЫ////////////////////////////////////////////////////////////////
 
-bot.command('help', commands.handleHelp);
-// bot.command('getBD', commands.handleGetBD);
-// bot.command('send_test', commands.handleSendTest);
-// bot.command('send', commands.send);
+
 // bot.command('test', commands.test)
 // bot.command('get_message',commands.get_message)
 ////////////////////////////////////////////////////////////////////////////////
+// bot.command('send', sendMessage);
+
+
 
 bot.action(/button_pressed_on_message_(\d+)/, (ctx) => {
 	const message_id = ctx.match[1];
@@ -143,13 +150,7 @@ bot.action(/button_more_(\d+)/, (ctx) => {
 });
 ////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////// 
-bot.on('edited_message', (ctx) => {
-	const editedMessage = ctx.editedMessage
-	const editedText = editedMessage.text
-	console.log(`The edited message text is: ${editedText}`)
-}) 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 bot.launch().then(
 	console.log("Execute")
 )
@@ -280,7 +281,7 @@ setTimeout(() => { sendMessage(bot, chatId), console.log("вызвался та�
 const func1 = (msg) => sendFromBd(bot, chatId, msg)
 module.exports = {
 	bot,
-	func1
+	func1,Telegraf, Markup, Extra
 }
 
 

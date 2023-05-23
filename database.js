@@ -1,6 +1,4 @@
 const postgres = require("./pg")
-
-
 async function start_GET_BD(ctx){
 	users = await postgres.getUsers()
 date = "result \n"

@@ -29,7 +29,6 @@ bot.on('edited_message', (ctx) => {
 bot.on('message', ctx =>{postgres.bd_write(ctx.chat.id,ctx.message.message_id)
 })
 ////////////////////////////////////////
-
 bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message'));
 // bot.command('getBD', commands.handleGetBD);
 // bot.command('send_test', commands.handleSendTest);

@@ -5,7 +5,7 @@ const postgres = require("./pg")
 const { sendMessage, sendFromBd } = require("./send_message")
 // const formatMessageText = require("./formatMessageText")
 const commands = require('./commands.js');
-
+const {keyboardGen} = require("./keyboardGenerator.js")
 
 // const repl = require('repl');
 // repl.start().context = require('./main');
@@ -26,8 +26,6 @@ bot.on('edited_message', (ctx) => {
 }) 
 ////////////////////////////////////////////////////////////
 
-bot.on('message', ctx =>{postgres.bd_write(ctx.chat.id,ctx.message.message_id)
-})
 ////////////////////////////////////////
 bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message'));
 // bot.command('getBD', commands.handleGetBD);
@@ -35,13 +33,18 @@ bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n 
 ////////////////////////////////////////
 
 
+
 bot.command('send', async ctx =>{
-const rows = await postgres.query_get_message(472758383)
-sendMessage( 	ctx.message.chat.id ,rows[0].message_id)
+	const rows = await postgres.query_get_message(ctx.message.chat.id)
+	await sendMessage(  bot,	ctx.message.chat.id ,rows[0].message_id)
+	// await sendMessage( bot,	1293060843 ,1114)
+	// /*С*/console.dir(bot,rows[0].message_id, ctx.message.chat.id)
 	// ctx.reply(sendMessage(bot, ctx.message.chat.id,rows. ), "hallo")
 } 
 )
 ////////////////////////////////////////
+bot.on('message', ctx =>{postgres.bd_write(ctx.chat.id,ctx.message.message_id)
+})
 
 bot.action('button1', (ctx) => {
 	ctx.reply('Вы нажали на кнопку "Button 1"')
@@ -203,9 +206,6 @@ bot.launch().then(
 
 // 	});
 
-const chatId = '1293060843';
-const messageId = '513';
-
 
 // const chatId = 1293060843; // Замените YOUR_CHAT_ID на id вашего чата
 
@@ -235,8 +235,11 @@ const messageId = '513';
 // 	{reply_markup: keyboard, reply_to_message_id: 586},
 // 	);
 // }
+const chatId = '1293060843';
+const messageId = "1114"//'513';
+// setTimeout(() => { sendMessage( chatId,messageId), console.log("вызвался таймаут") }, 3000);
 
-setTimeout(() => { sendMessage(bot, chatId), console.log("вызвался таймаут") }, 3000);
+  
 
 
 // const send = async (ctx) => {
@@ -278,9 +281,13 @@ setTimeout(() => { sendMessage(bot, chatId), console.log("вызвался та�
 
 // } 
 const func1 = (msg) => sendFromBd(bot, chatId, msg)
+
 module.exports = {
 	bot,
-	func1,Telegraf, Markup, Extra
+	func1,
+	Telegraf, 
+	Markup, 
+	Extra
 }
 
 

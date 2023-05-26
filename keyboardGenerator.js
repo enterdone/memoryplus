@@ -1,4 +1,5 @@
 const { Markup } = require('telegraf');
+   
 
 function keyboardGen(chatId){
 	const row1 = [	Markup.button.callback('👍👍', `button_plus2_${chatId}`),

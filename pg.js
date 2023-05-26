@@ -27,12 +27,12 @@ async function query_get_message (user_id){
 		UPDATE mytable
 		SET date = date + (day_interval::integer || ' day')::interval,
 			 day_interval = day_interval * 1.42
- WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id})
+ WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id}::text)
 		RETURNING *
 	 )
 	 SELECT *
 	 FROM mytable
- WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id})
+ WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id}::text)
    ;`
 
 	 const result = await pool.query(query);

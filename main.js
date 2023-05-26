@@ -7,6 +7,7 @@ const { sendMessage, sendFromBd } = require("./send_message")
 const commands = require('./commands.js');
 const {keyboardGen} = require("./keyboardGenerator.js")
 
+const{button_pressed_on_message_pencil} = require('./buttons')
 // const repl = require('repl');
 // repl.start().context = require('./main');
 
@@ -24,6 +25,8 @@ bot.on('edited_message', (ctx) => {
 	const editedText = editedMessage.text
 	console.log(`The edited message text is: ${editedText}`)
 }) 
+
+
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////
@@ -56,7 +59,8 @@ bot.action('button_yellow', async (ctx) => {
 	console.log(`Текст сообщения: ${messageText}`);
 
 })
-bot.action('button3', (ctx) => {
+bot.action('button_pressed_on_message_pencil', (ctx) => {
+	button_pressed_on_message_pencil()
 	ctx.reply('Вы нажали на кнопку "Button 3"')
 })
 bot.action('more_info', (ctx) => {

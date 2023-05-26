@@ -59,11 +59,9 @@ bot.action('button_yellow', async (ctx) => {
 	console.log(`Текст сообщения: ${messageText}`);
 
 })
-bot.action('button_pressed_on_message_pencil', (ctx) => {
-	button_pressed_on_message_pencil()
-	ctx.reply('Вы нажали на кнопку "Button 3"')
-})
-bot.action('more_info', (ctx) => {
+bot
+.action(/button_pressed_on_message_pencil(\d+)/, (ctx) => {button_pressed_on_message_pencil(ctx)})
+.action('more_info', (ctx) => {
 	const message = ctx.update.callback_query.message;
 	const chatId = message.chat.id;
 	const messageId = message.message_id;

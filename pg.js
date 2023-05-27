@@ -38,7 +38,7 @@ async function query_get_message (user_id){
  WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id}::text)
    ;`
 
-	 const result = await pool.query(query);
+	 const result = await pool.query(query,undefined,(err)=>{console.log("😭Error Pg Postgress pool get")})
     const rows = await result.rows;
 	
 	 console.dir(rows, "pg rows")

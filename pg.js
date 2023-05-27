@@ -20,7 +20,7 @@ function bd_write(user_id,message_id) {
 			// console.log('Row inserted with ID:', res.rows[0].id);
 		}
 	});
-	pool.end()
+	
 }
 
 async function query_get_message (user_id){
@@ -38,7 +38,7 @@ async function query_get_message (user_id){
 
 	 const result = await pool.query(query);
     const rows = await result.rows;
-	pool.end()
+	
 	 console.dir(rows, "pg rows")
 	 return rows
 	}

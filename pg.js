@@ -10,7 +10,7 @@ const pool = new Pool({
 	port: 5432,
 });
 // init_db(pool);  //create db mytable in postgres
-pool.query('SELECT * FROM mytable')
+// pool.query('SELECT * FROM mytable')
 
 function bd_write(user_id,message_id) {
 	pool.query('INSERT INTO mytable (user_id, message_id,date, day_interval) VALUES ($1, $2, now()+INTERVAL \'1 day\', 1.1)', [user_id, message_id], (err, res) => {
@@ -20,6 +20,7 @@ function bd_write(user_id,message_id) {
 			// console.log('Row inserted with ID:', res.rows[0].id);
 		}
 	});
+	pool.end()
 }
 
 async function query_get_message (user_id){
@@ -37,6 +38,7 @@ async function query_get_message (user_id){
 
 	 const result = await pool.query(query);
     const rows = await result.rows;
+	pool.end()
 	 console.dir(rows, "pg rows")
 	 return rows
 	}

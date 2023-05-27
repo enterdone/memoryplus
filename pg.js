@@ -48,7 +48,7 @@ async function query_get_message (user_id){
 		console.log("😭Error Pg Postgress pool get")
 		// Дополнительная обработка ошибки
 	  });
-	  
+	}
 
 
 

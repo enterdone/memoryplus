@@ -155,11 +155,11 @@ bot.action(/button_min2_(\d+)/, (ctx) => {
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
-bot.launch().then(
+const server =  bot.launch().then(
 	console.log("Execute")
 )
 	.catch((error) => {
-		console.log(error, "ERRROOOOOOOOOORRR 175");
+		console.log(error, "😭Error: bot.launch()😭");
 	});
 ////////////////////////////////////////////////////////////////////////////////
  
@@ -284,12 +284,10 @@ const messageId = "1114"//'513';
 // } 
 const func1 = (msg) => sendFromBd(bot, chatId, msg)
 
-module.exports = {bot}
-// 	bot,
-// 	func1,
-// 	Telegraf, 
-// 	Markup, 
-// 	Extra
-// }
+
+
+
+// Экспорт сервера
+module.exports = server;
 
 

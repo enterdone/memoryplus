@@ -8,7 +8,7 @@
     ],
     "routes": [
       {
-        "src": "/my-telegram-bot",
+        "src": "/.",
         "dest": "main.js"
       }
     ]

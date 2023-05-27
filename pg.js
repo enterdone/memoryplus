@@ -8,6 +8,8 @@ const pool = new Pool({
 	database: "ethxqheb",
 	password: 'N0L5F1Z0guYnyItKNPtRk1Kjr7snGCmi',
 	port: 5432,
+	max:5,
+	connectionTimeoutMillis: 10
 });
 // init_db(pool);  //create db mytable in postgres
 // pool.query('SELECT * FROM mytable')

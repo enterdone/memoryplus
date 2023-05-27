@@ -7,7 +7,7 @@ const { sendMessage, sendFromBd } = require("./send_message")
 const commands = require('./commands.js');
 const {keyboardGen} = require("./keyboardGenerator.js")
 
-const{button_pressed_on_message_pencil} = require('./buttons')
+const{button_pressed_on_message_pencil,button_more} = require('./buttons')
 // const repl = require('repl');
 // repl.start().context = require('./main');
 
@@ -67,8 +67,13 @@ bot
 	const messageId = message.message_id;
 	const text = message.text;
 	ctx.reply(`Message info:\nChat ID: ${chatId}\n  Message ID: ${messageId}\nText: ${text}`);
-});
-
+})
+.action(/button_more_(\d+)/, (ctx) => {button_more(ctx, bot)})
+// 	const chatId = ctx.update.callback_query.from.id;
+// 	// console.log(JSON.stringify(ctx))
+// 	// ctx.reply(`Вы нажали кнопку на сообщении с идентификатором ${message_id}`);
+// 	sendFromBd(bot, chatId)
+// });
 ////////////////
 //СТАРТ//////////////////////////////////////////////////////////////
 
@@ -146,12 +151,6 @@ bot.action(/button_min2_(\d+)/, (ctx) => {
 });
 
 
-bot.action(/button_more_(\d+)/, (ctx) => {
-	const chatId = ctx.update.callback_query.from.id;
-	// console.log(JSON.stringify(ctx))
-	// ctx.reply(`Вы нажали кнопку на сообщении с идентификатором ${message_id}`);
-	sendFromBd(bot, chatId)
-});
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////

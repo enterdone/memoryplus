@@ -284,7 +284,7 @@ const messageId = "1114"//'513';
 // } 
 const func1 = (msg) => sendFromBd(bot, chatId, msg)
 
-// module.exports = {
+module.exports = {bot}
 // 	bot,
 // 	func1,
 // 	Telegraf, 

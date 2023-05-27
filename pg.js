@@ -9,7 +9,7 @@ const pool = new Pool({
 	password: 'N0L5F1Z0guYnyItKNPtRk1Kjr7snGCmi',
 	port: 5432,
 	max:5,
-	connectionTimeoutMillis: 10
+	connectionTimeoutMillis: 10000
 });
 // init_db(pool);  //create db mytable in postgres
 // pool.query('SELECT * FROM mytable')
@@ -37,19 +37,15 @@ async function query_get_message (user_id){
 	 FROM mytable
  WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id}::text)
    ;`
+try{
+	 const result = await pool.query(query);
+    const rows = await result.rows;
+	
+	 console.dir(rows, "pg rows")
+	 return rows
+	}catch{if(err){console.log(err)}}
 
-	pool.query(query) .then((result) => {
-		const rows = result.rows;
-		console.dir(rows, "pg rows");
-		return rows;
-	  })
-	  .catch((err) => {
-		console.error(err);
-		console.log("😭Error Pg Postgress pool get")
-		// Дополнительная обработка ошибки
-	  });
-	}
-
+}
 
 
 // async function insertData(...values)

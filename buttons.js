@@ -12,7 +12,8 @@ const  button_more = async (ctx,bot) => {
     // ctx.telegram.sendMessage(user_id,"✏️", { reply_to_message_id: message_id })
 
     const rows = await postgres.query_get_message(user_id)
-	await sendMessage(  bot,	user_id ,rows[0].message_id)
+    // console.dir(rows)
+	await sendMessage(bot,user_id ,rows.message_id).catch(err=>console.log("😭"))
 
 }
 

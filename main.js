@@ -12,6 +12,7 @@ const{button_pressed_on_message_pencil,button_more} = require('./buttons')
 // repl.start().context = require('./main');
 
 
+const port = process.env.PORT || 3000;
 
 
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')

@@ -4,19 +4,22 @@ const { sendMessage, sendFromBd } = require("./send_message")
 const button_pressed_on_message_pencil = (ctx) => {
     user_id = ctx.update.callback_query.from.id
     message_id = ctx.update.callback_query.data.split("/")[1]
-    ctx.telegram.sendMessage(user_id,"✏️", { reply_to_message_id: message_id })
+    ctx.telegram.sendMessage(user_id, "✏️", { reply_to_message_id: message_id }).catch(e=>console.log(e ));
+    
 
 }
-const  button_more = async (ctx,bot) => {
+
+
+const button_more = (ctx, bot) => {
     user_id = ctx.update.callback_query.from.id
     // ctx.telegram.sendMessage(user_id,"✏️", { reply_to_message_id: message_id })
+    sendMessageFromBd = async () => {
+        const rows = await postgres.query_get_message(user_id)
+        await sendMessage(bot, user_id, rows[0].message_id)
+            .catch(err => { sendMessageFromBd(); console.log("🥵", err); })
+    }
 
-    const rows = await postgres.query_get_message(user_id)
-    // console.dir(rows)
-	const execute = await sendMessage(bot,user_id ,rows[0].message_id)
-execute.catch(err=> console.log(err, 'это ошибка из buttons.button_more')
-)
-
+    sendMessageFromBd()
 }
 
  

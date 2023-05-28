@@ -13,7 +13,9 @@ const  button_more = async (ctx,bot) => {
 
     const rows = await postgres.query_get_message(user_id)
     // console.dir(rows)
-	await sendMessage(bot,user_id ,rows.message_id).catch(err=>console.log("😭"))
+	const execute = await sendMessage(bot,user_id ,rows[0].message_id)
+execute.catch(err=> console.log(err, 'это ошибка из buttons.button_more')
+)
 
 }
 

@@ -47,7 +47,7 @@ bot.command('send', async ctx =>{
 } 
 )
 ////////////////////////////////////////
-bot.on('message', ctx =>{postgres.bd_write(ctx.chat.id,ctx.message.message_id)
+bot.on('message', ctx =>{postgres.save_message_bd(ctx.chat.id,ctx.message.message_id)
 })
 
 bot.action('button1', (ctx) => {

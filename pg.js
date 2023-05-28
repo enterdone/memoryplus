@@ -14,7 +14,7 @@ const pool = new Pool({
 // init_db(pool);  //create db mytable in postgres
 // pool.query('SELECT * FROM mytable')
 
-function bd_write(user_id,message_id) {
+function save_message_bd(user_id,message_id) {
 	pool.query('INSERT INTO mytable (user_id, message_id,date, day_interval) VALUES ($1, $2, now()+INTERVAL \'1 day\', 1.1)', [user_id, message_id], (err, res) => {
 		if (err) {
 			console.log(err.stack);
@@ -48,8 +48,28 @@ try{
 }
 
 
+return new Promise((resolve, reject) => {
+    pool.query('SELECT * FROM mytable WHERE date_column = (SELECT MIN(date_column) FROM mytable)')
+      .then(result => {
+        const rows = result.rows;
+        resolve(rows);
+      })
+      .catch(error => {reject(error);});
+  });
+ 
+
+
+
 // async function insertData(...values)
 module.exports = {
-	bd_write,
+	save_message_bd,
 	query_get_message
 }
+
+каждый
+охотник
+желает
+знать
+где
+сидит 
+фазан

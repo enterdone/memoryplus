@@ -4,19 +4,51 @@ const {todayJob}=require('./pg.js');
 //     * если есть доп настройки по отправке времени
 
 // отправить по каждому сообщению из списка команду
-const daily_message_bot = ()=> {
-
+const daily_message_bot = () => {
     todayJob
-    .then(rows => { console.log(rows)
-        // обработка результатов из запроса
- 
-    })
-    .catch(error => {
-        // обработка ошибок
-        console.error(error);
-    });
-    
+        .then(rows => rows.map(row =>setJobForUser(row)))
+        .catch(error => {
+            // обработка ошибок
+            console.error(error);
+        });
 }
+
+const setJobForUser = ({user_id, objects:messages}) => {
+    console.log(user_id, messages.length)
+    step = 12/messages.length
+    startHourTheDay = 8
+    let time 
+    let hours  
+    let min  
+
+for(let i=0,j=0; j<12; i++,j+=step ){
+    // schedule.scheduleJob(`${(startHourTheDay+j).toFixed(0)} ${startHourTheDay}`, task.handler)
+    time = moment((startHourTheDay+j).toFixed(2), 'H.m')
+    hours = time.format('H')
+    min = time.format('mm')
+
+    console.log((startHourTheDay+j).toFixed(2),i,messages.length,hours,min )
+ 
+}
+
+    
+    
+
+
+};
+
+ 
+// const setJobs = rows => rows.forEach(({user_id, msg_obj}) => );
+// const setJobs2 = (user_id, msg_obj) => msg_obj.forEach()
+// const setJobs = ()
+// // function setJobs(rows){
+//     rows.forEach(
+//          ({ user_id, objects }) => setJobs(user_id, objects)
+//     )
+//     arr.forEach(msg => {
+//         console.log(user_id,msg)        
+//     });
+// }
  
 // // Получаем текущую дату и время
 // const today = new Date(); 

@@ -2,7 +2,7 @@ function init_db(pool){
 	pool.query(`
 	CREATE TABLE IF NOT  EXISTS mytable (
 		id SERIAL PRIMARY KEY,
-		user_id INTEGER,
+		user_id TEXT,
 		message_id INTEGER,
 		date TIMESTAMP,
 		day_interval INTEGER

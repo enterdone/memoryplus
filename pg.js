@@ -48,8 +48,28 @@ try{
 }
 
 
-return new Promise((resolve, reject) => {
-    pool.query('SELECT * FROM mytable WHERE date_column = (SELECT MIN(date_column) FROM mytable)')
+const todayJob =  new Promise((resolve, reject) => {
+    const query = `  WITH updated_rows AS (
+        UPDATE tt
+        SET date = date + (day_interval || ' day')::interval,
+         day_interval = day_interval * 1.42
+        WHERE date <= CURRENT_DATE   
+        RETURNING *
+      )
+      
+	
+	SELECT user_id, array_agg(updated_rows) as objects
+	FROM updated_rows
+	GROUP BY user_id;
+                         `
+
+	//test
+	// const query_test = `SELECT user_id, array_agg(*) as objects
+	// FROM tt
+	// WHERE DATE_TRUNC('day', date) < CURRENT_DATE
+	// GROUP BY user_id;
+	// `
+	pool.query(query)
       .then(result => {
         const rows = result.rows;
         resolve(rows);
@@ -63,13 +83,8 @@ return new Promise((resolve, reject) => {
 // async function insertData(...values)
 module.exports = {
 	save_message_bd,
-	query_get_message
+	query_get_message,
+	todayJob
 }
 
-каждый
-охотник
-желает
-знать
-где
-сидит 
-фазан
+ 

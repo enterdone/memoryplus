@@ -9,12 +9,7 @@ const daily_message_bot = ()=> {
     todayJob
     .then(rows => { console.log(rows)
         // обработка результатов из запроса
-// const uniqueIds =  new Set(rows.map(obj => obj.user_id)) ;
-// uniqueIds.forEach(user_id => {
-    
-// });
  
-        // console.log(rows);
     })
     .catch(error => {
         // обработка ошибок

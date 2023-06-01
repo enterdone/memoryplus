@@ -30,11 +30,6 @@ for(let i=0,j=0; j<12; i++,j+=step ){
     console.log((startHourTheDay+j).toFixed(2),i,messages.length,hours,min )
  
 }
-
-    
-    
-
-
 };
 
  

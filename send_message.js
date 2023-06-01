@@ -10,4 +10,4 @@ async function sendMessage(bot, chatId, messageId) {
 }
 
 
-module.exports = { sendMessage }
+module.exports =   sendMessage  

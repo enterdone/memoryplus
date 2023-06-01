@@ -17,8 +17,8 @@ const port =  process.env.PORT || 3000;
 
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
 
-
-daily_message_bot()
+const sendMessageMain= (x,y)=> {bot.telegram.sendMessage(x, y);}
+// daily_message_bot()
 ////////////////////////////////////////////////////////////
 //////////////////// 
 bot.on('edited_message', (ctx) => {
@@ -293,6 +293,6 @@ const func1 = (msg) => sendFromBd(bot, chatId, msg)
 
 
 // Экспорт сервера
-module.exports = server;
+module.exports = {sendMessageMain, bot,Telegraf};
 
 

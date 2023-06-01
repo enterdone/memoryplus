@@ -74,6 +74,12 @@ const todayJob =  new Promise((resolve, reject) => {
         const rows = result.rows;
         resolve(rows);
       })
+
+	  	.then(pool.query(`DROP TABLE IF EXISTS tt`)
+		.then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
+		 
+	  	 
+
       .catch(error => {reject(error);});
   });
  

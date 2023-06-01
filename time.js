@@ -6,6 +6,7 @@ const {todayJob}=require('./pg.js');
 // отправить по каждому сообщению из списка команду
 const daily_message_bot = ()=> {
 
+    
     todayJob
     .then(rows => { console.log(rows)
         // обработка результатов из запроса

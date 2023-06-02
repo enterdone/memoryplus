@@ -55,7 +55,7 @@ const todayJob =  new Promise((resolve, reject) => {
          day_interval = day_interval * 1.42
         WHERE date <= CURRENT_DATE   
         RETURNING *
-      )
+      ) 
       
 	
 	  SELECT user_id, json_agg(updated_rows) as objects

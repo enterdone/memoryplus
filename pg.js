@@ -50,7 +50,7 @@ try{
 
 const todayJob =  new Promise((resolve, reject) => {
     const query = `  WITH updated_rows AS (
-        UPDATE tt
+        UPDATE mytable
         SET date = date + (day_interval || ' day')::interval,
          day_interval = day_interval * 1.42
         WHERE date <= CURRENT_DATE   
@@ -75,8 +75,8 @@ const todayJob =  new Promise((resolve, reject) => {
         resolve(rows);
       })
 
-	  	.then(pool.query(`DROP TABLE IF EXISTS tt`)
-		.then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
+	  	// .then(pool.query(`DROP TABLE IF EXISTS tt`)
+		// .then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
 		 
 	  	 
 

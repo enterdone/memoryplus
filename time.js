@@ -1,48 +1,59 @@
 const schedule = require('node-schedule');
 const {todayJob}=require('./pg.js');
+ 
 // сначала мне нужно узнать список сообщений
 //     * если есть доп настройки по отправке времени
-
 // отправить по каждому сообщению из списка команду
+<<<<<<< HEAD
 const daily_message_bot = ()=> {
 
     
+=======
+const daily_message_bot = (bot,f) => {
+>>>>>>> inProgress
     todayJob
-    .then(rows => { console.log(rows)
-        // обработка результатов из запроса
-// const uniqueIds =  new Set(rows.map(obj => obj.user_id)) ;
-// uniqueIds.forEach(user_id => {
-    
-// });
- 
-        // console.log(rows);
-    })
-    .catch(error => {
-        // обработка ошибок
-        console.error(error);
-    });
-    
+        .then(rows => rows.map(row =>setJobForUser(row.user_id,row.objects,bot,f)))
+        .catch(error => {console.error(error)});
 }
+
+const setJobForUser = (user_id,messages,bot,f) => {
+    let cronTime,hours,minutes, msgTime   
+
+    step = 0.5/messages.length
+    startHourTheDay = 1.66
+
+for(let i=0,j=0; j<2; i++,j+=step ){
  
-// // Получаем текущую дату и время
-// const today = new Date(); 
-// // Устанавливаем желаемое время без указания даты time.setHours(12, 30)
-// time.setHours(12, 30); 
-// // const timezone = 'Europe/Moscow' ||  = '+03:00' ||  f() //TODO
+    // console.log(startHourTheDay,j , "startHourTheDay,j")
+    msgTime = (startHourTheDay+j).toFixed(2)
+// console.log('msgTime',msgTime);
 
 
+ 
 
-// function schedulingMessages(rows){ // <---- array = get sql 
-//     array.forEach(row => {
-//         // const date = new Date('2023-05-20T09:30:00');     
-//         schedule.scheduleJob(date, function() {  //TODO DATE GLOBAL 
+     hours = Math.floor(msgTime).toString()
+     demicalMin = msgTime - hours
+     minutes = Math.round(demicalMin*60).toString()
+     
+     if (hours<10){hours= "0"+hours}
+     if (minutes<10){minutes= "0"+minutes}
+console.log('hours minutes', hours,minutes);
+daate = new Date(`2023-06-02T${hours}:${minutes}:00`)
+// console.log(messages[i],daate);
+console.log(daate);
 
-//             // Код для отправки сообщения
-            
-//           });
+schedule.scheduleJob(daate, () => {
+    console.log(`Running ${minutes}`,hours,daate);
+    console.log(messages[i])
+    f(bot, messages[i].user_id,messages[i].message_id)
+    // Ваш код для выполнения задания
+  });
+  
+}}
 
-//     });
-// }
+
+ 
+ 
 
 // todayJob.then()
 

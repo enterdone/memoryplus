@@ -58,9 +58,9 @@ const todayJob =  new Promise((resolve, reject) => {
       )
       
 	
-	SELECT user_id, array_agg(updated_rows) as objects
-	FROM updated_rows
-	GROUP BY user_id;
+	  SELECT user_id, json_agg(updated_rows) as objects
+	  FROM updated_rows
+	  GROUP BY user_id;
                          `
 
 	//test
@@ -74,6 +74,12 @@ const todayJob =  new Promise((resolve, reject) => {
         const rows = result.rows;
         resolve(rows);
       })
+
+	  	.then(pool.query(`DROP TABLE IF EXISTS tt`)
+		.then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
+		 
+	  	 
+
       .catch(error => {reject(error);});
   });
  

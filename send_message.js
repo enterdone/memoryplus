@@ -2,7 +2,7 @@ const { keyboardGen } = require("./keyboardGenerator.js")
  
 
 
-async function sendMessage(bot, chatId, messageId) {
+async function sendMessage( bot, chatId, messageId) {
 	const keyboard = keyboardGen(chatId, messageId)
 
 	await bot.telegram.copyMessage(chatId, chatId, messageId, keyboard)
@@ -10,4 +10,4 @@ async function sendMessage(bot, chatId, messageId) {
 }
 
 
-module.exports = { sendMessage }
+module.exports =   {sendMessage}  

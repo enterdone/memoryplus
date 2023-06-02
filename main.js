@@ -13,12 +13,13 @@ const{button_pressed_on_message_pencil,button_more} = require('./buttons')
 
 
 const port =  process.env.PORT || 3000;
-
-
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
 
+const colog = ()=>console.log("yEs")
+const sendMessageMain= (x,y)=> {bot.telegram.sendMessage(x, y);}
+daily_message_bot(bot,sendMessage )
 
-daily_message_bot()
+// daily_message_bot()
 ////////////////////////////////////////////////////////////
 //////////////////// 
 bot.on('edited_message', (ctx) => {
@@ -287,12 +288,12 @@ const messageId = "1114"//'513';
 // 	// });
 
 // } 
-const func1 = (msg) => sendFromBd(bot, chatId, msg)
+// const func1 = (msg) => sendFromBd(bot, chatId, msg)
 
 
 
 
 // Экспорт сервера
-module.exports = server;
+module.exports = {sendMessageMain, bot,Telegraf};
 
 

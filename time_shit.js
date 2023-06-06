@@ -66,8 +66,8 @@ schedule.scheduleJob(date, () => {
 
 
 // //каждый день в 5 утра происходит запрос на сообщения
-// const job = schedule.scheduleJob('* 5 * * *', () => { getMessages(); });
-// job.schedule(); //включает таймер при запуске бота
+  const job = ('0 * * * * *', () => { console.log('Текущее время сервера:', currentTime); });
+  job.schedule(); //включает таймер при запуске бота
 
 
 

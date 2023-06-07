@@ -1,5 +1,5 @@
 const postgres = require("./pg")
-const { sendMessage, sendFromBd } = require("./send_message")
+const {copyMessage, sendFromBd } = require("./send_message")
 
 const button_pressed_on_message_pencil = (ctx) => {
     user_id = ctx.update.callback_query.from.id
@@ -15,8 +15,11 @@ const button_more = (ctx, bot) => {
     // ctx.telegram.sendMessage(user_id,"✏️", { reply_to_message_id: message_id })
     sendMessageFromBd = async () => {
         const rows = await postgres.query_get_message(user_id)
-        await sendMessage(bot, user_id, rows[0].message_id)
-            .catch(err => { sendMessageFromBd(); console.log("🥵", err); })
+         console.log('rows from button.js',rows[0] );
+         console.dir(rows)
+         
+        await copyMessage(bot, user_id, rows[0].message_id)
+            .catch(err => { sendMessageFromBd(); console.log("🥵001", err); })
     }
 
     sendMessageFromBd()

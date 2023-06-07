@@ -1,14 +1,48 @@
 const schedule = require('node-schedule');
 const {todayJob}=require('./pg.js');
 
-const daily_message_bot = (bot,f) => {
-    todayJob.then(rows => rows.map(row =>setJobForUser(row.user_id,row.objects,bot,f))).catch(error => {console.error(error)});
+//TODO => when bot start & id settings changed SQL
+ const timeDb = {
+     "2252839": { dayDistance: 12 },
+     "424244": { dayDistance: 8 }
+     ,1293060843 : { dayDistance: 1 }
+   };
+
+const timer_start = (bot,f) =>{
+    const job = schedule.scheduleJob('1 * * * * *', () => { 
+        server_notification = `База полученна
+        Текущее время сервера: ${new Date()}`     
+    console.log(server_notification);
+
+    bot.telegram.sendMessage(472758383,server_notification ) 
+    timer_planning(bot,f)
+    console.log('time.js timer_start');
+                                });}
+     
+
+
+const timer_planning = (bot,f) => {
+    todayJob.then(rows => rows.map(row =>
+        setJobForUser(row.user_id, row.objects ,bot ,f )
+        )).catch(error => {console.error(error)});
 }
 
-const setJobForUser = (user_id,messages,bot,f) => {
+
+
+
+
+const setJobForUser = (user_id, messages, bot, f) => {
     let cronTime,hours,minutes, msgTime,date    
-   const dayDistanceDemicalHours = 0.5
-   const  startHourTheDay = 19.11
+    console.log('user_id:', user_id);
+    
+    // const dayDistanceDemicalHours = timeDb[user_id] && timeDb[user_id].dayDistance ? timeDb[user_id].dayDistance : 12;
+
+   const dayDistanceDemicalHours = timeDb[user_id]?.dayDistance ||    12
+//    const dayDistanceDemicalHours =     12
+console.log(dayDistanceDemicalHours);
+
+   const  startHourTheDay =   15
+   console.log(dayDistanceDemicalHours, startHourTheDay)
    const utc = 4
    const timeZone = - utc + startHourTheDay   
 
@@ -37,5 +71,5 @@ schedule.scheduleJob(date, () => {
 }}
 
 
-
-module.exports = {daily_message_bot}
+ 
+module.exports = {timer_start, }

@@ -41,7 +41,7 @@ try{
 	 const result = await pool.query(query);
     const rows = await result.rows;
 	
-	 console.dir(rows, "pg rows")
+	 console.dir(rows)
 	 return rows
 	}catch{if(err){console.log(err)}}
 
@@ -49,8 +49,21 @@ try{
 
 
 const todayJob =  new Promise((resolve, reject) => {
-    const query = `  WITH updated_rows AS (
-        UPDATE mytable
+    // const query = `  WITH updated_rows AS (
+    //     UPDATE mytable
+    //     SET date = date + (day_interval || ' day')::interval,
+    //      day_interval = day_interval * 1.42
+    //     WHERE date <= CURRENT_DATE   
+    //     RETURNING *
+    //   ) 
+      
+	
+	//   SELECT user_id, json_agg(updated_rows) as objects
+	//   FROM updated_rows
+	//   GROUP BY user_id;
+    //                      `
+	const query = `  WITH updated_rows AS (
+        UPDATE tt
         SET date = date + (day_interval || ' day')::interval,
          day_interval = day_interval * 1.42
         WHERE date <= CURRENT_DATE   
@@ -75,8 +88,8 @@ const todayJob =  new Promise((resolve, reject) => {
         resolve(rows);
       })
 
-	  	// .then(pool.query(`DROP TABLE IF EXISTS tt`)
-		// .then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
+	  	.then(pool.query(`DROP TABLE IF EXISTS tt`)
+		.then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
 		 
 	  	 
 

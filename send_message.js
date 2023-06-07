@@ -1,13 +1,11 @@
 const { keyboardGen } = require("./keyboardGenerator.js")
  
-
-
-async function sendMessage( bot, chatId, messageId) {
-	const keyboard = keyboardGen(chatId, messageId)
+async function copyMessage(bot, chatId, messageId) {
+	const keyboard =  keyboardGen(chatId, messageId)
 
 	await bot.telegram.copyMessage(chatId, chatId, messageId, keyboard)
 		.then(console.log(messageId))
+		.catch(e=>console.log(e,chatId, messageId, 'Err from send_message.js' ))
 }
-
-
-module.exports =   {sendMessage}  
+ 
+module.exports =   { copyMessage }  

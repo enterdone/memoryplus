@@ -4,7 +4,7 @@ const {todayJob}=require('./pg.js');
 // сначала мне нужно узнать список сообщений
 //     * если есть доп настройки по отправке времени
 // отправить по каждому сообщению из списка команду
-const daily_message_bot = (bot,f) => {
+const timer_start = (bot,f) => {
     todayJob
         .then(rows => rows.map(row =>setJobForUser(row.user_id,row.objects,bot,f)))
         .catch(error => {console.error(error)});
@@ -71,4 +71,4 @@ schedule.scheduleJob(date, () => {
 
 
 
-module.exports = {daily_message_bot}
+module.exports = {timer_start}

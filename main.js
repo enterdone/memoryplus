@@ -2,11 +2,11 @@ const { Telegraf, Markup, Extra } = require('telegraf');
 const axios = require("axios")
 const marked = require('marked')
 const postgres = require("./pg")
-const { sendMessage, sendFromBd } = require("./send_message")
+const {copyMessage     } = require("./send_message")
 // const formatMessageText = require("./formatMessageText")
 const commands = require('./commands.js');
 const {keyboardGen} = require("./keyboardGenerator.js")
-const {daily_message_bot} = require('./time.js')
+const {timer_start,events_db_run} = require('./time.js')
 const{button_pressed_on_message_pencil,button_more} = require('./buttons')
 // const repl = require('repl');
 // repl.start().context = require('./main');
@@ -15,11 +15,14 @@ const{button_pressed_on_message_pencil,button_more} = require('./buttons')
 const port =  process.env.PORT || 3000;
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
 
-const colog = ()=>console.log("yEs")
+ 
 const sendMessageMain= (x,y)=> {bot.telegram.sendMessage(x, y);}
-daily_message_bot(bot,sendMessage )
 
-// daily_message_bot()
+timer_start(bot,copyMessage)
+// sendMessageMain(472758383, "lol")
+ 
+// events_db_run(sendMessage( ))
+// timer_start()
 ////////////////////////////////////////////////////////////
 //////////////////// 
 bot.on('edited_message', (ctx) => {
@@ -41,8 +44,8 @@ bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n 
 
 bot.command('send', async ctx =>{
 	const rows = await postgres.query_get_message(ctx.message.chat.id)
-	await sendMessage(  bot,	ctx.message.chat.id ,rows[0].message_id)
-	// await sendMessage( bot,	1293060843 ,1114)
+	await  copyMessage(  bot,	ctx.message.chat.id ,rows[0].message_id)
+	// awaitcopyMessage( bot,	1293060843 ,1114)
 	// /*С*/console.dir(bot,rows[0].message_id, ctx.message.chat.id)
 	// ctx.reply(sendMessage(bot, ctx.message.chat.id,rows. ), "hallo")
 } 
@@ -130,7 +133,7 @@ bot
 // bot.command('test', commands.test)
 // bot.command('get_message',commands.get_message)
 ////////////////////////////////////////////////////////////////////////////////
-// bot.command('send', sendMessage);
+// bot.command('send',copyMessage);
 
 
 
@@ -217,7 +220,7 @@ const server =  bot.launch().then(
 
 // const chatId = 1293060843; // Замените YOUR_CHAT_ID на id вашего чата
 
-// function sendMessage(bot) {
+// functioncopyMessage(bot) {
 
 // 		const row1 = [
 // 		Markup.button.callback('🟡', 'button_yellow'),
@@ -245,7 +248,7 @@ const server =  bot.launch().then(
 // }
 const chatId = '1293060843';
 const messageId = "1114"//'513';
-// setTimeout(() => { sendMessage( chatId,messageId), console.log("вызвался таймаут") }, 3000);
+// setTimeout(() => {copyMessage( chatId,messageId), console.log("вызвался таймаут") }, 3000);
 
   
 

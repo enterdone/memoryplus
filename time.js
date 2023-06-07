@@ -5,18 +5,18 @@ const {todayJob}=require('./pg.js');
  const timeDb = {
      "2252839": { dayDistance: 12 },
      "424244": { dayDistance: 8 }
-     ,1293060843 : { dayDistance: 1 }
+     ,1293060843 : { dayDistance: 8 }
    };
 
 const timer_start = (bot,f) =>{
-    const job = schedule.scheduleJob('1 * * * * *', () => { 
+    const job = schedule.scheduleJob('* 1 * * *', () => { 
         server_notification = `База полученна
         Текущее время сервера: ${new Date()}`     
     console.log(server_notification);
 
-    bot.telegram.sendMessage(472758383,server_notification ) 
-    timer_planning(bot,f)
+    bot.telegram.sendMessage(472758383,server_notification ) ;
     console.log('time.js timer_start');
+    timer_planning(bot,f);
                                 });}
      
 
@@ -41,7 +41,7 @@ const setJobForUser = (user_id, messages, bot, f) => {
 //    const dayDistanceDemicalHours =     12
 console.log(dayDistanceDemicalHours);
 
-   const  startHourTheDay =   15
+   const  startHourTheDay =   11
    console.log(dayDistanceDemicalHours, startHourTheDay)
    const utc = 4
    const timeZone = - utc + startHourTheDay   

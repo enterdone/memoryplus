@@ -69,27 +69,18 @@ const todayJob =  new Promise((resolve, reject) => {
         WHERE date <= CURRENT_DATE   
         RETURNING *
       ) 
-      
-	
 	  SELECT user_id, json_agg(updated_rows) as objects
 	  FROM updated_rows
 	  GROUP BY user_id;
-                         `
-
-	//test
-	// const query_test = `SELECT user_id, array_agg(*) as objects
-	// FROM tt
-	// WHERE DATE_TRUNC('day', date) < CURRENT_DATE
-	// GROUP BY user_id;
-	// `
+                         ` 
 	pool.query(query)
       .then(result => {
         const rows = result.rows;
         resolve(rows);
       })
 
-	  	.then(pool.query(`DROP TABLE IF EXISTS tt`)
-		.then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
+	  	// .then(pool.query(`DROP TABLE IF EXISTS tt`)
+		// .then(()=>pool.query(`CREATE TABLE tt AS SELECT * FROM mytable`)))
 		 
 	  	 
 

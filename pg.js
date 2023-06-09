@@ -26,24 +26,22 @@ function save_message_bd(user_id,message_id) {
 }
 
 async function query_get_message (user_id){
-	const query  = `WITH updated_rows AS (
+	const query  = `WITH updated_row AS (
 		UPDATE mytable
-		SET date = date + (day_interval::integer || ' day')::interval,
-			 day_interval = day_interval * 1.42
- WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id}::text)
+		SET date = date + (day_interval * INTERVAL '1 day'),
+			day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 1.42 ELSE day_interval END
+		WHERE message_id = (SELECT message_id FROM mytable WHERE user_id = ${user_id}::text ORDER BY date LIMIT 1)
 		RETURNING *
-	 )
-	 SELECT *
-	 FROM mytable
- WHERE   mytable.date = (SELECT MIN(date) FROM mytable WHERE user_id = ${user_id}::text)
-   ;`
+	) SELECT * FROM updated_row;;`
 try{
 	 const result = await pool.query(query);
-    const rows = await result.rows;
+
+    const rows =  result.rows;
+	console.log('pg_rows______________');
 	
-	 console.dir(rows)
+	 console.dir(rows.rows)
 	 return rows
-	}catch{if(err){console.log(err)}}
+	}catch(e){ console.log("🤷‍♂️err query_get_message",e)}
 
 }
 
@@ -57,13 +55,14 @@ const todayJob =  new Promise((resolve, reject) => {
     //     RETURNING *
     //   ) 
       
+	console.log('todayJob =  new Promise');
 	
 	//   SELECT user_id, json_agg(updated_rows) as objects
 	//   FROM updated_rows
 	//   GROUP BY user_id;
     //                      `
 	const query = `  WITH updated_rows AS (
-        UPDATE tt
+        UPDATE mytable
         SET date = date + (day_interval || ' day')::interval,
          day_interval = day_interval * 1.42
         WHERE date <= CURRENT_DATE   
@@ -88,13 +87,19 @@ const todayJob =  new Promise((resolve, reject) => {
   });
  
 
-
+  function delete_from_BD(userId, messageId){
+	pool.query(`DELETE FROM mytable
+	WHERE message_id = ${messageId}::integer AND user_id = ${userId}::text;
+	`)
+	.then(console.log('deleted id user',userId, messageId ))
+	.catch(e=>console.log(e))
+  }
 
 // async function insertData(...values)
 module.exports = {
 	save_message_bd,
 	query_get_message,
-	todayJob
+	todayJob,delete_from_BD
 }
 
  

@@ -10,19 +10,28 @@ const button_pressed_on_message_pencil = (ctx) => {
 }
 
 
-const button_more = (ctx, bot) => {
+const button_more = async (ctx, bot) => {
     user_id = ctx.update.callback_query.from.id
-    // ctx.telegram.sendMessage(user_id,"✏️", { reply_to_message_id: message_id })
-    sendMessageFromBd = async () => {
-        const rows = await postgres.query_get_message(user_id)
-         console.log('rows from button.js',rows[0] );
-         console.dir(rows)
-         
-        await copyMessage(bot, user_id, rows[0].message_id)
-            .catch(err => { sendMessageFromBd(); console.log("🥵001", err); })
+    console.log(user_id);
+    const rows =  await postgres.query_get_message(user_id)
+    console.log('rows_____________');
+    
+    console.dir(rows)
+   await  copyMessage(bot, user_id, rows[0].message_id)
+   .catch((err)=>{console.log(err); postgres.delete_from_BD(user_id,rows[0].message_id);button_more (ctx, bot);
+    if (user_id = 472758383){
+        bot.telegram.sendMessage(472758383,"DELETED: "+user_id,rows[0].message_id)
+        
     }
+   })
 
-    sendMessageFromBd()
+console.log('after await');
+
+    // ctx.telegram.sendMessage(user_id,"✏️", { reply_to_message_id: message_id })
+    
+  
+ 
+    
 }
 
  

@@ -6,14 +6,15 @@ const timeDb = {
     "2252839": { dayDistance: 12 },
     "424244": { dayDistance: 8 }
     , 1293060843: { dayDistance: 3, startHourTheDay: 17 },
-    472758383: {dayDistance: 10, startHourTheDay: 18}
+    472758383: { dayDistance: 10, startHourTheDay: 18 }
 };
 
 const timer_start = (bot, f) => {
+    server_notification = 'База полученна \n  Текущее время сервера:\n' + new Date()
+    
     const job = schedule.scheduleJob('0 0 0 * * *', () => {
-        
+
         console.log('time.js timer_start');
-        server_notification = 'База полученна \n  Текущее время сервера:\n' + new Date()
         console.log(server_notification);
 
         bot.telegram.sendMessage(472758383, server_notification);
@@ -21,6 +22,7 @@ const timer_start = (bot, f) => {
         timer_planning(bot, f);
     });
     timer_planning(bot, f)
+    bot.telegram.sendMessage(472758383, "🤪база запущенна перманентно, будет второй запуск" + server_notification);
 }// 1 time when servers start (test)
 
 
@@ -29,8 +31,9 @@ const timer_planning = (bot, f) => {
     console.log("timer_planning")
     todayJob.then(rows => {
         console.dir(rows[0])
-        rows.map(row =>setJobForUser(row.user_id, row.objects, bot, f)
-    )}).catch(error => { console.error(error) });
+        rows.map(row => setJobForUser(row.user_id, row.objects, bot, f)
+        )
+    }).catch(error => { console.error(error) });
 }
 
 
@@ -48,11 +51,11 @@ const setJobForUser = (user_id, messages, bot, f) => {
     const dayDistanceDemicalHours = timeDb[user_id]?.dayDistance || 12
     //    const dayDistanceDemicalHours =     12
     console.log(dayDistanceDemicalHours);
-    
+
     const startHourTheDay = timeDb[user_id]?.startHourTheDay || 9
     console.log(dayDistanceDemicalHours, startHourTheDay)
     const utc = 4
-    const timeZone = - utc + startHourTheDay
+    const timeZone = - utc - 1 + startHourTheDay // 
 
     step = dayDistanceDemicalHours / messages.length
     date = new Date()

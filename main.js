@@ -4,13 +4,10 @@ const marked = require('marked')
 const postgres = require("./pg")
 const {copyMessage     } = require("./send_message")
 // const formatMessageText = require("./formatMessageText")
-const commands = require('./commands.js');
 const {keyboardGen} = require("./keyboardGenerator.js")
 const {timer_start,events_db_run} = require('./time.js')
-const{button_pressed_on_message_pencil,button_more} = require('./buttons')
-// const repl = require('repl');
-// repl.start().context = require('./main');
-
+const{button_pressed_on_message_pencil,button_more,button_pressed_on_message_delete,button_change_raiting} = require('./buttons')
+ 
 
 const port =  process.env.PORT || 3000;
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
@@ -35,7 +32,7 @@ bot.on('edited_message', (ctx) => {
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////
-bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message'));
+bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message\n /delete_all\n /delete_all'));
 // bot.command('getBD', commands.handleGetBD);
 // bot.command('send_test', commands.handleSendTest);
 ////////////////////////////////////////
@@ -69,16 +66,18 @@ bot
 .action(/button_pressed_on_message_pencil(\d+)/, (ctx) => {
 	button_pressed_on_message_pencil(ctx)
 	  ctx.answerCbQuery()})
+.action(/delete(\d+)/, (ctx) => {
+	button_pressed_on_message_delete(ctx)
+	  ctx.answerCbQuery()})
 .action('more_info', async (ctx) => {
+	button_more_info(ctx) 
 	ctx.answerCbQuery()
-	const message = ctx.update.callback_query.message;
-	const chatId = message.chat.id;
-	const messageId = message.message_id;
-	const text = message.text;
-	ctx.reply(`Message info:\nChat ID: ${chatId}\n  Message ID: ${messageId}\nText: ${text}`);
 })
-.action(/button_more_(\d+)/, (ctx) => {
-	button_more(ctx, bot)})
+.action(/button_like(\d+)/, (ctx) => {button_change_raiting(ctx, true)})
+.action(/button_dislike(\d+)/, (ctx) => {button_change_raiting(ctx, false)})
+
+
+
 // 	const chatId = ctx.update.callback_query.from.id;
 // 	// console.log(JSON.stringify(ctx))
 // 	// ctx.reply(`Вы нажали кнопку на сообщении с идентификатором ${message_id}`);

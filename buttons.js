@@ -15,12 +15,12 @@ const button_pressed_on_message_delete = (ctx) => {
     .then( postgres.delete_from_BD(user_id,  message_id ))
     .catch(e=>console.log(e ));
 }
-const button_change_raiting = (ctx, rating) => {
+const button_change_raiting = (ctx,    rating) => {
     user_id = ctx.update.callback_query.from.id
     message_id = ctx.update.callback_query.data.split("/")[1]
-    postgres.raiting(user_id,message_id,rating)
+    postgres.raiting(user_id,message_id,   rating)
 
-    .then(  console.log("button_change_raiting^ "+rating))
+    .then(  console.log("button_change_raiting^ "+   rating))
     .catch(e=>console.log(e ));
 }
 

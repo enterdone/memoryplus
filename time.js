@@ -4,25 +4,29 @@ const { todayJob } = require('./pg.js');
 //TODO => when bot start & id settings changed SQL
 const timeDb = {
     "2252839": { dayDistance: 12 },
-    "424244": { dayDistance: 8 }
-    , 1293060843: { dayDistance: 3, startHourTheDay: 17 },
+    "424244": { dayDistance: 8 },
+    1293060843: { dayDistance: 3, startHourTheDay: 17 },
     472758383: { dayDistance: 10, startHourTheDay: 18 }
 };
 
 const timer_start = (bot, f) => {
     server_notification = 'База полученна \n  Текущее время сервера:\n' + new Date()
-    
+    var switchT = 0
     const job = schedule.scheduleJob('0 0 0 * * *', () => {
-
         console.log('time.js timer_start');
         console.log(server_notification);
-
         bot.telegram.sendMessage(472758383, server_notification);
-
-        timer_planning(bot, f);
+        if (switchT) { timer_planning(bot, f); }
     });
-    timer_planning(bot, f)
-    bot.telegram.sendMessage(472758383, "🤪база запущенна перманентно, будет второй запуск" + server_notification);
+
+    (function(){
+        timer_planning(bot, f)
+        switchT = 1
+        bot.telegram.sendMessage(472758383, "🤪база запущенна перманентно,не будет второй запуск в 00:00 (-3)" + server_notification); })();
+
+    console.log("switchT: ",switchT);
+        
+        
 }// 1 time when servers start (test)
 
 
@@ -30,6 +34,7 @@ const timer_start = (bot, f) => {
 const timer_planning = (bot, f) => {
     console.log("timer_planning")
     todayJob.then(rows => {
+        console.log("rows")
         console.dir(rows[0])
         rows.map(row => setJobForUser(row.user_id, row.objects, bot, f)
         )

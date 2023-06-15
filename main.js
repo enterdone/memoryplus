@@ -75,7 +75,8 @@ bot
 })
 .action(/button_like(\d+)/, (ctx) => {button_change_raiting(ctx, true)})
 .action(/button_dislike(\d+)/, (ctx) => {button_change_raiting(ctx, false)})
-
+.action(/button_more_(\d+)/, (ctx) => {button_more(ctx, bot)})
+.action('button_question', (ctx) => {ctx.reply('В разработке...')})
 
 
 // 	const chatId = ctx.update.callback_query.from.id;

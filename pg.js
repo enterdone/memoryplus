@@ -29,10 +29,10 @@ async function query_get_message(user_id) {
 	const query = `WITH updated_row AS (
 		UPDATE mytable
 		SET date = date + (day_interval * INTERVAL '1 day'),
-			day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 1.42 ELSE day_interval END
+			day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 1.42 ELSE 300 END
 		WHERE message_id = (SELECT message_id FROM mytable WHERE user_id = ${user_id}::text ORDER BY date LIMIT 1)
 		RETURNING *
-	) SELECT * FROM updated_row;;`
+	) SELECT * FROM updated_row;`
 	try {
 		const result = await pool.query(query);
 
@@ -75,6 +75,8 @@ const todayJob = new Promise((resolve, reject) => {
 	pool.query(query)
 		.then(result => {
 			const rows = result.rows;
+			console.log('rows from pg.js');
+			console.dir(rows[0])
 			resolve(rows);
 		})
 		// .then(pool.query(`DROP TABLE IF EXISTS tt`)
@@ -91,10 +93,37 @@ function delete_from_BD(userId, messageId) {
 		.catch(e => console.log(e))
 }
 
+
+
+function raiting(user_id, message_id, rating){
+
+	rating ? rating_pg_up() : rating_pg_down()
+
+
+	rating_pg_up = () => {
+		pool.query(` UPDATE mytable
+		SET day_interval = CASE WHEN day_interval > 3 THEN day_interval / 3  ELSE 3 END,
+			date = date + (day_interval * INTERVAL '1 day')
+			WHERE	user_id = ${user_id} AND message_id = ${message_id};	`)	}
+
+	rating_pg_down = () => {
+		pool.query(`UPDATE mytable
+		SET day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 3 + 10  ELSE 300 END,
+			date = date + (day_interval * INTERVAL '1 day')
+			WHERE	user_id = ${user_id} AND message_id = ${message_id};`)	}
+}
+// UPDATE mytable
+// day_interval = day_interval / 1.42
+// SET date = date - (day_interval * INTERVAL '1 day'), 
+// WHERE user_id = '${user_id}' AND message_id = ${message_id};
 // async function insertData(...values)
 module.exports = {
 	save_message_bd,
 	query_get_message,
-	todayJob, delete_from_BD
+	todayJob, delete_from_BD,raiting
 }
 
+
+
+ 
+ 

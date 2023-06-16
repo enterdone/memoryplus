@@ -2,24 +2,24 @@ const { Telegraf, Markup, Extra } = require('telegraf');
 const axios = require("axios")
 const marked = require('marked')
 const postgres = require("./pg")
-const { sendMessage, sendFromBd } = require("./send_message")
+const {copyMessage     } = require("./send_message")
 // const formatMessageText = require("./formatMessageText")
-const commands = require('./commands.js');
 const {keyboardGen} = require("./keyboardGenerator.js")
-const {daily_message_bot} = require('./time.js')
-const{button_pressed_on_message_pencil,button_more} = require('./buttons')
-// const repl = require('repl');
-// repl.start().context = require('./main');
-
+const {timer_start,events_db_run} = require('./time.js')
+const{button_pressed_on_message_pencil,button_more,button_pressed_on_message_delete,button_change_raiting} = require('./buttons')
+ 
 
 const port =  process.env.PORT || 3000;
 const bot = new Telegraf('6036674449:AAH86LMufrMwf2PbKYhK9VP7X4HDynnC05g')
 
-const colog = ()=>console.log("yEs")
+ 
 const sendMessageMain= (x,y)=> {bot.telegram.sendMessage(x, y);}
-daily_message_bot(bot,sendMessage )
 
-// daily_message_bot()
+timer_start(bot,copyMessage)
+// sendMessageMain(472758383, "lol")
+ 
+// events_db_run(sendMessage( ))
+// timer_start()
 ////////////////////////////////////////////////////////////
 //////////////////// 
 bot.on('edited_message', (ctx) => {
@@ -32,7 +32,7 @@ bot.on('edited_message', (ctx) => {
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////
-bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message'));
+bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n /test \n  /send_test\n /get_message\n /delete_all\n /delete_all'));
 // bot.command('getBD', commands.handleGetBD);
 // bot.command('send_test', commands.handleSendTest);
 ////////////////////////////////////////
@@ -41,8 +41,8 @@ bot.command('help', ctx => ctx.reply('/start \n /getBD \n /more_info\n /send \n 
 
 bot.command('send', async ctx =>{
 	const rows = await postgres.query_get_message(ctx.message.chat.id)
-	await sendMessage(  bot,	ctx.message.chat.id ,rows[0].message_id)
-	// await sendMessage( bot,	1293060843 ,1114)
+	await  copyMessage(  bot,	ctx.message.chat.id ,rows[0].message_id)
+	// awaitcopyMessage( bot,	1293060843 ,1114)
 	// /*С*/console.dir(bot,rows[0].message_id, ctx.message.chat.id)
 	// ctx.reply(sendMessage(bot, ctx.message.chat.id,rows. ), "hallo")
 } 
@@ -66,16 +66,19 @@ bot
 .action(/button_pressed_on_message_pencil(\d+)/, (ctx) => {
 	button_pressed_on_message_pencil(ctx)
 	  ctx.answerCbQuery()})
+.action(/delete(\d+)/, (ctx) => {
+	button_pressed_on_message_delete(ctx)
+	  ctx.answerCbQuery()})
 .action('more_info', async (ctx) => {
+	button_more_info(ctx) 
 	ctx.answerCbQuery()
-	const message = ctx.update.callback_query.message;
-	const chatId = message.chat.id;
-	const messageId = message.message_id;
-	const text = message.text;
-	ctx.reply(`Message info:\nChat ID: ${chatId}\n  Message ID: ${messageId}\nText: ${text}`);
 })
-.action(/button_more_(\d+)/, (ctx) => {
-	button_more(ctx, bot)})
+.action(/button_like(\d+)/, (ctx) => {button_change_raiting(ctx, true)})
+.action(/button_dislike(\d+)/, (ctx) => {button_change_raiting(ctx, false)})
+.action(/button_more_(\d+)/, (ctx) => {button_more(ctx, bot)})
+.action('button_question', (ctx) => {ctx.reply('В разработке...')})
+
+
 // 	const chatId = ctx.update.callback_query.from.id;
 // 	// console.log(JSON.stringify(ctx))
 // 	// ctx.reply(`Вы нажали кнопку на сообщении с идентификатором ${message_id}`);
@@ -130,7 +133,7 @@ bot
 // bot.command('test', commands.test)
 // bot.command('get_message',commands.get_message)
 ////////////////////////////////////////////////////////////////////////////////
-// bot.command('send', sendMessage);
+// bot.command('send',copyMessage);
 
 
 
@@ -217,7 +220,7 @@ const server =  bot.launch().then(
 
 // const chatId = 1293060843; // Замените YOUR_CHAT_ID на id вашего чата
 
-// function sendMessage(bot) {
+// functioncopyMessage(bot) {
 
 // 		const row1 = [
 // 		Markup.button.callback('🟡', 'button_yellow'),
@@ -245,7 +248,7 @@ const server =  bot.launch().then(
 // }
 const chatId = '1293060843';
 const messageId = "1114"//'513';
-// setTimeout(() => { sendMessage( chatId,messageId), console.log("вызвался таймаут") }, 3000);
+// setTimeout(() => {copyMessage( chatId,messageId), console.log("вызвался таймаут") }, 3000);
 
   
 

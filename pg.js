@@ -52,7 +52,11 @@ const todayJob =  new Promise((resolve, reject) => {
     const query = `  WITH updated_rows AS (
         UPDATE tt
         SET date = date + (day_interval || ' day')::interval,
+<<<<<<< Updated upstream
          day_interval = day_interval * 1.42
+=======
+         day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 1.42 ELSE 300 END
+>>>>>>> Stashed changes
         WHERE date <= CURRENT_DATE   
         RETURNING *
       )

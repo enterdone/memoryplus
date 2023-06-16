@@ -64,7 +64,15 @@ const todayJob = new Promise((resolve, reject) => {
 	const query = `  WITH updated_rows AS (
         UPDATE mytable
         SET date = date + (day_interval || ' day')::interval,
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+         day_interval = day_interval * 1.42
+=======
+         day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 1.42 ELSE 300 END
+>>>>>>> Stashed changes
+=======
          day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 1.42 ELSE day_interval END
+>>>>>>> 6a4e93762216416b8a8a596ce7dc6b2a8c612ca3
         WHERE date <= CURRENT_DATE   
         RETURNING *
       ) 
@@ -108,7 +116,7 @@ function raiting(user_id, message_id, rating){
 
 	rating_pg_down = () => {
 		pool.query(`UPDATE mytable
-		SET day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 3 + 10  ELSE 300 END,
+		SET day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 3 + 10  ELSE 300 END, 
 			date = date + (day_interval * INTERVAL '1 day')
 			WHERE	user_id = ${user_id} AND message_id = ${message_id};`)	}
 }

@@ -71,7 +71,7 @@ const todayJob = new Promise((resolve, reject) => {
 	  SELECT user_id, json_agg(updated_rows) as objects
 	  FROM updated_rows
 	  GROUP BY user_id;
-                         `
+                          `
 	pool.query(query)
 		.then(result => {
 			const rows = result.rows;

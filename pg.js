@@ -116,7 +116,7 @@ function raiting(user_id, message_id, rating){
 
 	rating_pg_down = () => {
 		pool.query(`UPDATE mytable
-		SET day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 3 + 10  ELSE 300 END,
+		SET day_interval = CASE WHEN day_interval <= 300 THEN day_interval * 3 + 10  ELSE 300 END, 
 			date = date + (day_interval * INTERVAL '1 day')
 			WHERE	user_id = ${user_id} AND message_id = ${message_id};`)	}
 }
